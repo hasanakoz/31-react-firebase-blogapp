@@ -2,10 +2,10 @@ import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signInWithEmailAndPassword,
-  signInWithRedirect,
+  signInWithPopup,
 } from "firebase/auth";
 import React, { useContext, createContext, useState, useEffect } from "react";
-import { auth } from "../utils/firebaseConfig";
+import { auth, provider } from "../utils/firebaseConfig";
 
 const AuthContext = createContext();
 
@@ -18,45 +18,35 @@ const AuthContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
       setCurrentUser(user);
       setLoading(false);
     });
     return unsubscribe;
   }, []);
 
-  const signUp = createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // ..
-    });
+  function signUp(email, password) {
+    return createUserWithEmailAndPassword(auth, email, password);
+  }
 
-  const signIn = signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in
-      const user = userCredential.user;
-      // ...
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+  function signIn(email, password) {
+    signInWithEmailAndPassword(auth, email, password);
+  }
 
-  const signInWithGoogle = signInWithRedirect(auth, provider);
+  function signInWithGoogle() {
+    provider.setCustomParameters({ prompt: "select_account" });
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 
-  const signOut = signOut(auth)
-    .then(() => {
-      // Sign-out successful.
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  function signOut() {
+    signOut(auth);
+  }
 
   const value = {
     currentUser,

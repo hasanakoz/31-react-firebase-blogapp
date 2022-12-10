@@ -1,13 +1,13 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, GoogleAuthProvider } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_apiKey,
+  apiKey: "AIzaSyB8IXbDBcVBCR54GgRWTgoGDqY3DSOF5ng",
   authDomain: process.env.REACT_APP_FIREBASE_authDomain,
   projectId: process.env.REACT_APP_FIREBASE_projectId,
   storageBucket: process.env.REACT_APP_FIREBASE_storageBucket,
