@@ -84,10 +84,13 @@ export const Navbar = () => {
                   <MenuItem onClick={handleClose}>Profile</MenuItem>
                 </Link>
 
-                <Link to="/new-blog"></Link>
-                <MenuItem onClick={handleClose}>New Blog</MenuItem>
+                <Link to="/new-blog">
+                  <MenuItem onClick={handleClose}>New Blog</MenuItem>
+                </Link>
 
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                <Link to="/login">
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Link>
               </Menu>
             ) : (
               <Menu

@@ -3,6 +3,7 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
+  signInWithGoogle,
 } from "firebase/auth";
 import React, { useContext, createContext, useState, useEffect } from "react";
 import { auth, provider } from "../utils/firebaseConfig";
