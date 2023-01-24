@@ -12,13 +12,15 @@ import Menu from "@mui/material/Menu";
 import logo2 from "../assets/logo2.jpg";
 import { border } from "@mui/system";
 import { useAuth } from "../context/AuthContextProvider";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 
 export const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const { currentUser } = useAuth();
+
+  const navigate = useNavigate();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
@@ -33,6 +35,10 @@ export const Navbar = () => {
     signOut();
   };
 
+  const handleDashboard = () => {
+    navigate("/");
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -43,6 +49,7 @@ export const Navbar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={handleDashboard}
           >
             <img
               src={logo2}
