@@ -13,7 +13,6 @@ import logo2 from "../assets/logo2.jpg";
 import { border } from "@mui/system";
 import { useAuth } from "../context/AuthContextProvider";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { signOut } from "firebase/auth";
 
 export const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -26,13 +25,15 @@ export const Navbar = () => {
     setAnchorEl(event.currentTarget);
   };
 
+  const { logOut } = useAuth();
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   const handleLogout = () => {
     handleClose();
-    signOut();
+    logOut();
   };
 
   const handleDashboard = () => {

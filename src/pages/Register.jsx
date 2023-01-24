@@ -105,7 +105,7 @@ const styles = {
 function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { signup, loginWithGoogle, currentUser } = useAuth();
+  const { signup, signInWithGoogle, currentUser } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -128,7 +128,7 @@ function Register() {
   });
 
   const handleGoogleProvider = () => {
-    loginWithGoogle();
+    signInWithGoogle();
   };
 
   useEffect(() => {
