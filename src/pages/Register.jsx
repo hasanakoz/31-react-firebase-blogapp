@@ -105,7 +105,7 @@ const styles = {
 function Register() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { signup, signInWithGoogle, currentUser } = useAuth();
+  const { signUp, signInWithGoogle, currentUser } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -116,7 +116,7 @@ function Register() {
     onSubmit: async (values) => {
       setLoading(true);
       try {
-        await signup(values.email, values.password);
+        await signUp(values.email, values.password);
         navigate("/");
         toastSuccessNotify("Registered successfully!");
       } catch (error) {

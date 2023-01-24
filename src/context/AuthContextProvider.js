@@ -6,6 +6,7 @@ import {
   signOut,
 } from "firebase/auth";
 import React, { useContext, createContext, useState, useEffect } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import { auth, provider } from "../utils/firebaseConfig";
 
 const AuthContext = createContext();
@@ -36,7 +37,6 @@ const AuthContextProvider = ({ children }) => {
         console.log(error);
       });
   }
-
   function logOut() {
     signOut(auth);
   }
