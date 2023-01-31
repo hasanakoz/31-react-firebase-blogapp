@@ -2,10 +2,9 @@ import React, { useState, useEffect } from "react";
 
 import blokPng from "../assets/blok.png";
 import { useNavigate } from "react-router-dom";
-import { toastSuccessNotify, toastErrorNotify } from "../utils/toastNotify";
-import { useFormik } from "formik";
+import { Formik, Form } from "formik";
 import * as yup from "yup";
-import { useAuth } from "../context/AuthContextProvider";
+import { AuthContext } from "../context/AuthContextProvider";
 import loadingGif from "../assets/loading.gif";
 import googlePng from "../assets/google.png";
 import {
@@ -19,15 +18,8 @@ import {
   Box,
 } from "@mui/material";
 import { grey } from "@mui/material/colors";
-
-const validationSchema = yup.object({
-  email: yup
-    .string("Enter your email")
-    .email("Invalid email.")
-    .min(2, "Email should be of minimum 2 characters length.")
-    .required("Email is required"),
-  password: yup.string("Enter your password").required("Password is required"),
-});
+import { useContext } from "react";
+import { signIn, signInWithGoogle } from "../utils/firebaseConfig";
 
 const styles = {
   root: {
@@ -105,41 +97,24 @@ const styles = {
   },
 };
 
-function Login() {
+const Login = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const { signIn, signInWithGoogle, currentUser } = useAuth();
+  const { currentUser, loading } = useContext(AuthContext);
 
-  const formik = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      setLoading(true);
-      try {
-        await signIn(values.email, values.password);
-        navigate("/");
-        toastSuccessNotify("Logged in successfully!");
-      } catch (error) {
-        toastErrorNotify(error.message);
-      }
-
-      setLoading(false);
-    },
+  const validationSchema = yup.object({
+    email: yup
+      .string("Enter your email")
+      .email("Invalid email.")
+      .min(2, "Email should be of minimum 2 characters length.")
+      .required("Email is required"),
+    password: yup
+      .string("Enter your password")
+      .required("Password is required"),
   });
 
   const handleGoogleProvider = () => {
     signInWithGoogle();
   };
-
-  useEffect(() => {
-    if (currentUser) {
-      navigate("/");
-    }
-    // console.log({ currentUser });
-  }, [currentUser, navigate]);
 
   return (
     <Grid container component="main" sx={styles.root}>
@@ -153,74 +128,96 @@ function Login() {
             <Typography sx={styles.header} component="h1" variant="h5">
               ── Login ──
             </Typography>
-            <form sx={styles.form} onSubmit={formik.handleSubmit}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                id="email"
-                label="Email"
-                name="email"
-                autoComplete="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                autoFocus
-                value={formik.values.email}
-                error={formik.touched.email && Boolean(formik.errors.email)}
-                helperText={formik.touched.email && formik.errors.email}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="password"
-                value={formik.values.password}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.password && Boolean(formik.errors.password)
-                }
-                helperText={formik.touched.password && formik.errors.password}
-              />
-              {loading ? (
-                <div sx={styles.loadingContainer}>
-                  <img src={loadingGif} alt="Loading" sx={styles.loadingGif} />
-                </div>
-              ) : (
-                <>
-                  <Button
-                    type="submit"
+
+            <Formik
+              initialValues={{ email: "", password: "" }}
+              validationSchema={validationSchema}
+              onSubmit={(values, actions) => {
+                console.log(values.email, values.password);
+                signIn(values.email, values.password, navigate);
+                actions.resetForm();
+                actions.setSubmitting(false);
+              }}
+            >
+              {({
+                values,
+                isSubmitting,
+                handleChange,
+                handleBlur,
+                touched,
+                errors,
+              }) => (
+                <Form sx={styles.form}>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
                     fullWidth
-                    variant="contained"
-                    sx={styles.submit}
-                  >
-                    Login
-                  </Button>
-                  <Button
+                    id="email"
+                    label="Email"
+                    name="email"
+                    autoComplete="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    autoFocus
+                    value={values.email}
+                    error={touched.email && Boolean(errors.email)}
+                    helperText={touched.email && errors.email}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
                     fullWidth
-                    variant="contained"
-                    onClick={handleGoogleProvider}
-                    sx={styles.googleBtn}
-                  >
-                    With{" "}
-                    <img
-                      src={googlePng}
-                      alt="google"
-                      style={styles.googleImg}
-                    />
-                  </Button>
-                </>
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="password"
+                    value={values.password}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={touched.password && Boolean(errors.password)}
+                    helperText={touched.password && errors.password}
+                  />
+                  {loading ? (
+                    <div sx={styles.loadingContainer}>
+                      <img
+                        src={loadingGif}
+                        alt="Loading"
+                        sx={styles.loadingGif}
+                      />
+                    </div>
+                  ) : (
+                    <>
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        sx={styles.submit}
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        onClick={handleGoogleProvider}
+                        sx={styles.googleBtn}
+                      >
+                        With{" "}
+                        <img
+                          src={googlePng}
+                          alt="google"
+                          style={styles.googleImg}
+                        />
+                      </Button>
+                    </>
+                  )}
+                </Form>
               )}
-            </form>
+            </Formik>
           </Box>
         </Grid>
       </Grid>
     </Grid>
   );
-}
-
+};
 export default Login;

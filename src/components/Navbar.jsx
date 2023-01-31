@@ -4,28 +4,26 @@ import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import logo2 from "../assets/logo2.jpg";
-import { border } from "@mui/system";
-import { useAuth } from "../context/AuthContextProvider";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContextProvider";
+import { Link, useNavigate } from "react-router-dom";
+import { logOut } from "../utils/firebaseConfig";
+import { useContext } from "react";
 
 export const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const { currentUser } = useAuth();
+  const { currentUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const { logOut } = useAuth();
 
   const handleClose = () => {
     setAnchorEl(null);
