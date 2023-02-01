@@ -1,6 +1,6 @@
 import React from "react";
 
-import BlogCard from "../components/BlogCard";
+import { BlogCard } from "../components/BlogCard";
 
 import loadingGif from "../assets/loading.gif";
 import { makeStyles } from "@mui/styles";
@@ -42,9 +42,7 @@ const Home = () => {
           spacing={5}
           justifyContent="center"
         >
-          {currentBlogs == undefined ? (
-            <img src={loadingGif} alt="loading" />
-          ) : currentBlogs ? (
+          {currentBlogs ? (
             currentBlogs?.map((item, id) => (
               <Grid key={id} item>
                 <BlogCard post={item} />
