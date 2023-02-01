@@ -1,14 +1,14 @@
-import { getDatabase } from "firebase/database";
-import React, { useContext, createContext, useState, useEffect } from "react";
+import { getDatabase, onValue, ref } from "firebase/database";
+import React, { createContext, useState, useEffect } from "react";
 
-export const BlogContext = React.createContext();
+export const BlogContext = createContext();
 
-const BlogContextProvider = () => {
-  const [currentBlogs, setCurrentBlogs] = useState();
+export const BlogContextProvider = ({ children }) => {
+  const [currentBlogs, setCurrentBlogs] = useState([]);
 
   useEffect(() => {
-    const db = getDatabase(firebase);
-    const blogRef = ref(db, "user/");
+    const db = getDatabase();
+    const blogRef = ref(db, "blog/");
 
     onValue(blogRef, (snapshot) => {
       const blogs = snapshot.val();

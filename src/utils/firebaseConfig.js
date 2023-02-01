@@ -21,6 +21,8 @@ const firebaseConfig = {
   apiKey: "AIzaSyB8IXbDBcVBCR54GgRWTgoGDqY3DSOF5ng",
   authDomain: "blog-app-449e3.firebaseapp.com",
   // authDomain: process.env.REACT_APP_FIREBASE_authDomain,
+  databaseURL: "https://blog-app-449e3-default-rtdb.firebaseio.com",
+
   projectId: process.env.REACT_APP_FIREBASE_projectId,
   storageBucket: process.env.REACT_APP_FIREBASE_storageBucket,
   messagingSenderId: process.env.REACT_APP_FIREBASE_messagingSenderId,
