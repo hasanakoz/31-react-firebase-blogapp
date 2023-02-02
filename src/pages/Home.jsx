@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const { currentBlogs } = useContext(BlogContext);
+  console.log(currentBlogs);
 
   return (
     <div className={classes.mainRoot}>

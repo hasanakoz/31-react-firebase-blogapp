@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toastSuccessNotify } from "../utils/toastNotify";
 import { BlogContext } from "../context/BlogContextProvider";
 import { AuthContext } from "../context/AuthContextProvider";
+import { addBlog } from "../utils/dbfunctions";
 
 const NewBlog = () => {
   const { currentUser } = useContext(AuthContext);
@@ -16,7 +17,6 @@ const NewBlog = () => {
     image: "",
     published_date: Date.now(),
   });
-  const { addBlog } = useContext(BlogContext);
   const navigate = useNavigate();
 
   const newBlogHandler = (e) => {
