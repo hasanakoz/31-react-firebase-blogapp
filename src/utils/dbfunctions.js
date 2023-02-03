@@ -17,7 +17,7 @@ export const deleteBlog = (id) => {
   toastSuccessNotify("Deleted Successfully");
 };
 
-export const upDateBlog = (data, id) => {
+export const upDateBlog = (id, data) => {
   const db = getDatabase();
   const updates = {};
   updates["blog/" + id] = data;
