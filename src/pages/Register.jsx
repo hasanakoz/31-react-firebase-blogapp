@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import blokPng from "../assets/blok.png";
 import { useNavigate } from "react-router-dom";
-import { toastSuccessNotify, toastErrorNotify } from "../utils/toastNotify";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import { AuthContext } from "../context/AuthContextProvider";
@@ -97,7 +96,7 @@ const styles = {
 
 const Register = () => {
   const navigate = useNavigate();
-  const { loading, currentUser } = useContext(AuthContext);
+  const { loading, setCurrentUser } = useContext(AuthContext);
 
   const validationSchema = yup.object({
     email: yup
@@ -112,6 +111,7 @@ const Register = () => {
 
   const handleGoogleProvider = () => {
     signInWithGoogle();
+    navigate("/");
   };
 
   return (
@@ -132,7 +132,14 @@ const Register = () => {
               validationSchema={validationSchema}
               onSubmit={(values, actions) => {
                 console.log(values.email, values.password);
-                createUser(values.email, values.password, navigate);
+                const displayName = values.email.split("@")[0];
+                createUser(
+                  values.email,
+                  values.password,
+                  navigate,
+                  displayName
+                );
+                setCurrentUser([values.email, displayName]);
                 actions.resetForm();
                 actions.setSubmitting(false);
               }}

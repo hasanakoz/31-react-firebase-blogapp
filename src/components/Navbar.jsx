@@ -60,16 +60,24 @@ export const Navbar = () => {
             {"<HASAN /> BLOG"}
           </Typography>
           <div>
-            <IconButton
-              size="large"
-              aria-label="account of current user"
-              aria-controls="menu-appbar"
-              aria-haspopup="true"
-              onClick={handleMenu}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
+            <div sx={{ display: "flex" }}>
+              {currentUser && (
+                <Typography variant="h6" sx={{ flexGrow: 1 }}>
+                  {currentUser.displayName}
+                </Typography>
+              )}
+              <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                onClick={handleMenu}
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
+            </div>
+
             {currentUser ? (
               <Menu
                 id="menu-appbar"

@@ -14,7 +14,7 @@ const AuthContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ currentUser, loading }}>
+    <AuthContext.Provider value={{ setCurrentUser, currentUser, loading }}>
       {" "}
       {!loading && children}
     </AuthContext.Provider>

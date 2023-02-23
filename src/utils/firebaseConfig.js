@@ -39,13 +39,16 @@ export const createUser = async (email, password, navigate, displayName) => {
     let userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
+      displayName
     );
     await updateProfile(auth.currentUser, {
       displayName: displayName,
     });
     navigate("/");
-    console.log(userCredential);
+
+    console.log(userCredential.user.displayName);
+
     toastSuccessNotify("Successfully Registered");
   } catch (error) {
     toastErrorNotify(error.message);
@@ -70,9 +73,11 @@ export const signIn = async (email, password, navigate) => {
 export const userObserver = (setCurrentUser) => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      const { email } = user;
-      setCurrentUser({ email });
-      console.log(user);
+      // const { email } = user;
+      // setCurrentUser({ email });
+      const { email, displayName } = user;
+      setCurrentUser({ email, displayName });
+      // console.log(currentUser);
     } else {
       setCurrentUser("");
 
@@ -91,7 +96,6 @@ export const signInWithGoogle = (navigate) => {
   signInWithPopup(auth, provider)
     .then((result) => {
       console.log(result);
-      navigate("/");
     })
     .catch((error) => {
       console.log(error);

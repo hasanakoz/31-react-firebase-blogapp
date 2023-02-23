@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 import { BlogCard } from "../components/BlogCard";
 
@@ -7,6 +7,7 @@ import { makeStyles } from "@mui/styles";
 import { Grid, Typography } from "@mui/material";
 import { useContext } from "react";
 import { BlogContext } from "../context/BlogContextProvider";
+import { AuthContext } from "../context/AuthContextProvider";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const { currentBlogs } = useContext(BlogContext);
-  console.log(currentBlogs);
 
   return (
     <div className={classes.mainRoot}>

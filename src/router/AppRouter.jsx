@@ -5,7 +5,7 @@ import Detail from "../pages/Detail";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import NewBlog from "../pages/NewBlog";
-import Profile from "../pages/Profile";
+import { Profile } from "../pages/Profile";
 import Register from "../pages/Register";
 import { UpdateBlog } from "../pages/UpdateBlog";
 import PrivateRouter from "./PrivateRouter";

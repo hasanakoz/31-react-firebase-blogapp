@@ -114,6 +114,7 @@ const Login = () => {
 
   const handleGoogleProvider = () => {
     signInWithGoogle();
+    navigate("/");
   };
 
   return (
